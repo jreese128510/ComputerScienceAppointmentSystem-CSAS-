@@ -1,0 +1,109 @@
+# Running the CSAS Frontend Locally
+
+## Prerequisites
+
+Before running the project, make sure you have the following installed:
+
+- Visual Studio Code (VS Code)
+- Live Server Extension for VS Code
+
+### Download VS Code
+
+[https://code.visualstudio.com/](https://code.visualstudio.com/)
+
+### Install Live Server (Extention in VS code)
+
+1. Open VS Code
+2. Click the **Extensions** icon on the left sidebar
+3. Search for **Live Server**
+4. Install **Live Server** by Ritwick Dey
+
+---
+
+## Running the Project
+
+### 1\. Clone the Repository
+
+### git clone <repository\-url>2. Open the Project
+
+Open the project folder in VS Code.
+
+### 3\. Navigate to the Frontend Folder
+
+Locate the frontend folder that contains the HTML files:
+
+frontend/
+
+├── index.html
+
+├── login.html
+
+├── dashboard.html
+
+├── appointments.html
+
+├── students.html
+
+### 4\. Launch the Website
+
+Right\-click on:
+
+index.html
+
+and select:
+
+Open With Live Server
+
+A browser window will automatically open displaying the website.
+
+---
+
+## Login Information
+
+To access protected pages such as **Manage Students**, use the demo credentials:
+
+Username: admin
+
+Password: csas123
+
+After logging in, the navigation bar will display the logged\-in username and provide a Sign Out option.
+
+---
+
+## Notes
+
+- This project currently runs entirely on the frontend using HTML, CSS, and JavaScript.
+- User login status is stored locally using browser localStorage.
+- No database or backend server is required to run the current version.
+- If login issues occur, open the browser console (F12) and run:
+
+localStorage.clear();
+
+Then refresh the page.
+
+---
+
+## Optional VS Code Extensions
+
+Recommended extensions:
+
+- Live Server
+- Prettier
+- HTML CSS Support
+- JavaScript (ES6) Code Snippets
+
+These are optional but can improve the development experience.
+
+---
+
+## Team Workflow
+
+After pulling the latest changes:
+
+1. Open the project in VS Code
+2. Open frontend/index.html
+3. Right\-click and select **Open With Live Server**
+4. Navigate through the application using the website links
+
+No additional setup is required.
+
