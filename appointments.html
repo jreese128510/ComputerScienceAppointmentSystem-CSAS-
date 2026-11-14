@@ -1,0 +1,363 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CSAS - Appointments</title>
+
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: Arial, sans-serif;
+        }
+
+        body {
+            background-color: #F0FDF4;
+            color: #14532D;
+        }
+
+        /* Navigation Bar */
+        .navbar {
+            background-color: #14532D;
+            color: white;
+            padding: 20px 40px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            font-size: 24px;
+            font-weight: bold;
+        }
+
+        .navbar a {
+            color: #DCFCE7;
+            text-decoration: none;
+            margin-left: 25px;
+            font-size: 15px;
+        }
+
+        .navbar a:hover {
+            color: #22C55E;
+        }
+
+        /* Page Header */
+        .header {
+            background-color: #14532D;
+            color: white;
+            padding: 40px;
+            text-align: center;
+        }
+
+        .header h1 {
+            font-size: 32px;
+            margin-bottom: 10px;
+        }
+
+        .header p {
+            color: #DCFCE7;
+        }
+
+        /* Appointment Form */
+        .form-container {
+            max-width: 700px;
+            margin: 40px auto;
+            padding: 35px;
+            background-color: white;
+            border-radius: 12px;
+            box-shadow: 0 3px 12px rgba(0, 0, 0, 0.08);
+        }
+
+        .form-container h2 {
+            color: #14532D;
+            margin-bottom: 25px;
+            text-align: center;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: bold;
+            color: #14532D;
+        }
+
+        .form-group input,
+        .form-group select,
+        .form-group textarea {
+            width: 100%;
+            padding: 12px;
+            border: 1px solid #BBF7D0;
+            border-radius: 6px;
+            font-size: 15px;
+            outline: none;
+            background-color: #F9FFFA;
+        }
+
+        .form-group input:focus,
+        .form-group select:focus,
+        .form-group textarea:focus {
+            border-color: #15803D;
+            box-shadow: 0 0 4px rgba(21, 128, 61, 0.3);
+        }
+
+        .form-group textarea {
+            resize: vertical;
+            min-height: 90px;
+        }
+
+        /* Submit Button */
+        .submit-btn {
+            width: 100%;
+            padding: 14px;
+            background-color: #15803D;
+            color: white;
+            border: none;
+            border-radius: 6px;
+            font-size: 16px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: 0.3s;
+        }
+
+        .submit-btn:hover {
+            background-color: #14532D;
+        }
+
+        /* Confirmation Message */
+        .confirmation {
+            display: none;
+            background-color: #DCFCE7;
+            color: #14532D;
+            border: 1px solid #22C55E;
+            padding: 20px;
+            margin-top: 20px;
+            border-radius: 8px;
+            line-height: 1.6;
+        }
+
+        .confirmation h3 {
+            margin-bottom: 10px;
+        }
+
+        /* Footer */
+        footer {
+            background-color: #14532D;
+            color: #DCFCE7;
+            text-align: center;
+            padding: 20px;
+            margin-top: 50px;
+        }
+
+        /* Mobile Layout */
+        @media (max-width: 600px) {
+            .navbar {
+                flex-direction: column;
+                gap: 15px;
+                padding: 20px;
+            }
+
+            .navbar a {
+                margin: 0 8px;
+            }
+
+            .form-container {
+                margin: 25px 15px;
+                padding: 25px 20px;
+            }
+
+            .header {
+                padding: 30px 15px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <!-- Navigation Bar -->
+    <nav class="navbar">
+        <div class="logo">🎓 CSAS</div>
+
+        <div>
+            <a href="index.html">Home</a>
+            <a href="dashboard.html">Dashboard</a>
+            <a href="appointments.html">Appointments</a>
+        </div>
+    </nav>
+
+    <!-- Page Header -->
+    <section class="header">
+        <h1>Schedule an Appointment</h1>
+        <p>Fill out the information below to request an appointment with a professor.</p>
+    </section>
+
+    <!-- Appointment Form -->
+    <div class="form-container">
+
+        <h2>Appointment Information</h2>
+
+        <form id="appointmentForm">
+
+            <!-- First Name -->
+            <div class="form-group">
+                <label for="firstName">First Name</label>
+                <input
+                    type="text"
+                    id="firstName"
+                    placeholder="Enter your first name"
+                    required>
+            </div>
+
+            <!-- Last Name -->
+            <div class="form-group">
+                <label for="lastName">Last Name</label>
+                <input
+                    type="text"
+                    id="lastName"
+                    placeholder="Enter your last name"
+                    required>
+            </div>
+
+            <!-- Student ID -->
+            <div class="form-group">
+                <label for="studentID">Student ID</label>
+                <input
+                    type="text"
+                    id="studentID"
+                    placeholder="Enter your student ID"
+                    required>
+            </div>
+
+            <!-- Student Email -->
+            <div class="form-group">
+                <label for="email">Student Email</label>
+                <input
+                    type="email"
+                    id="email"
+                    placeholder="Enter your student email"
+                    required>
+            </div>
+
+            <!-- Professor Dropdown -->
+            <div class="form-group">
+                <label for="professor">Select Your Professor</label>
+
+                <select id="professor" required>
+                    <option value="">-- Choose a Professor --</option>
+
+                    <!-- EDIT THIS SECTION TO ADD OR REMOVE PROFESSORS -->
+                    <option value="Professor Smith">Professor Smith</option>
+                    <option value="Professor Johnson">Professor Johnson</option>
+                    <option value="Professor Williams">Professor Williams</option>
+                    <option value="Professor Brown">Professor Brown</option>
+                    <option value="Professor Davis">Professor Davis</option>
+                    <!-- ADD MORE PROFESSORS ABOVE THIS COMMENT -->
+
+                </select>
+            </div>
+
+            <!-- Appointment Date -->
+            <div class="form-group">
+                <label for="date">Appointment Date</label>
+                <input
+                    type="date"
+                    id="date"
+                    required>
+            </div>
+
+            <!-- Appointment Time -->
+            <div class="form-group">
+                <label for="time">Appointment Time</label>
+                <input
+                    type="time"
+                    id="time"
+                    required>
+            </div>
+
+            <!-- Appointment Reason -->
+            <div class="form-group">
+                <label for="reason">Reason for Appointment</label>
+                <textarea
+                    id="reason"
+                    placeholder="Briefly explain what you would like to discuss..."
+                    required></textarea>
+            </div>
+
+            <!-- Submit Button -->
+            <button type="submit" class="submit-btn">
+                Submit Appointment
+            </button>
+
+        </form>
+
+        <!-- Confirmation Message -->
+        <div class="confirmation" id="confirmation">
+            <h3>Appointment Request Submitted!</h3>
+
+            <p id="confirmationDetails"></p>
+        </div>
+
+    </div>
+
+    <!-- Footer -->
+    <footer>
+        <p>© 2026 CSAS - Student Appointment Management System</p>
+    </footer>
+
+    <!-- JavaScript -->
+    <script>
+
+        // Handle Appointment Form Submission
+        document.getElementById("appointmentForm").addEventListener("submit", function(event) {
+
+            event.preventDefault();
+
+            // Get Student Information
+            const firstName = document.getElementById("firstName").value;
+            const lastName = document.getElementById("lastName").value;
+            const studentID = document.getElementById("studentID").value;
+            const email = document.getElementById("email").value;
+
+            // Get Appointment Information
+            const professor = document.getElementById("professor").value;
+            const date = document.getElementById("date").value;
+            const time = document.getElementById("time").value;
+            const reason = document.getElementById("reason").value;
+
+            // Display Confirmation Message
+            document.getElementById("confirmationDetails").innerHTML = `
+                <strong>Student:</strong> ${firstName} ${lastName}<br>
+                <strong>Student ID:</strong> ${studentID}<br>
+                <strong>Email:</strong> ${email}<br>
+                <strong>Professor:</strong> ${professor}<br>
+                <strong>Date:</strong> ${date}<br>
+                <strong>Time:</strong> ${time}<br>
+                <strong>Reason:</strong> ${reason}<br><br>
+                Your appointment request has been received.
+            `;
+
+            // Show Confirmation
+            document.getElementById("confirmation").style.display = "block";
+
+            // Clear Form
+            document.getElementById("appointmentForm").reset();
+
+            // Scroll to Confirmation
+            document.getElementById("confirmation").scrollIntoView({
+                behavior: "smooth"
+            });
+
+        });
+
+    </script>
+
+</body>
+</html>

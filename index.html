@@ -1,0 +1,405 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CSAS Dashboard</title>
+
+    <style>
+        *{
+            margin:0;
+            padding:0;
+            box-sizing:border-box;
+            font-family:Arial,sans-serif;
+        }
+
+        body{
+            background-color:#F0FDF4;
+            color:#14532D;
+        }
+
+        .navbar{
+            background-color:#14532D;
+            color:white;
+            padding:20px 40px;
+            display:flex;
+            justify-content:space-between;
+            align-items:center;
+        }
+
+        .logo{
+            font-size:24px;
+            font-weight:bold;
+        }
+
+        .navbar a{
+            color:#DCFCE7;
+            text-decoration:none;
+            margin-left:25px;
+            font-size:15px;
+        }
+
+        .navbar a:hover{
+            color:#22C55E;
+        }
+
+        .user-container{
+            position:relative;
+            display:inline-block;
+        }
+
+        .dropdown{
+            display:none;
+            position:absolute;
+            right:0;
+            top:30px;
+            background:white;
+            min-width:140px;
+            box-shadow:0 0 10px rgba(0,0,0,0.2);
+            border-radius:6px;
+            z-index:1000;
+        }
+
+        .dropdown a{
+            display:block;
+            padding:10px;
+            color:#14532D;
+            text-decoration:none;
+            margin:0;
+        }
+
+        .dropdown a:hover{
+            background:#DCFCE7;
+        }
+
+        .welcome{
+            background-color:#14532D;
+            color:white;
+            padding:60px 40px;
+        }
+
+        .welcome h1{
+            font-size:36px;
+            margin-bottom:15px;
+        }
+
+        .welcome p{
+            color:#DCFCE7;
+            font-size:17px;
+            margin-bottom:25px;
+        }
+
+        .welcome button{
+            background-color:#22C55E;
+            color:white;
+            border:none;
+            padding:12px 25px;
+            border-radius:6px;
+            font-size:16px;
+            cursor:pointer;
+        }
+
+        .welcome button:hover{
+            background-color:#16A34A;
+        }
+
+        .dashboard{
+            padding:40px;
+        }
+
+        .dashboard h2{
+            margin-bottom:25px;
+            font-size:26px;
+        }
+
+        .card-container{
+            display:grid;
+            grid-template-columns:repeat(2,1fr);
+            gap:25px;
+        }
+
+        .card{
+            background-color:white;
+            padding:30px;
+            border-radius:10px;
+            box-shadow:0 3px 10px rgba(0,0,0,0.08);
+            transition:0.3s;
+        }
+
+        .card:hover{
+            transform:translateY(-5px);
+        }
+
+        .card .icon{
+            font-size:35px;
+            margin-bottom:15px;
+        }
+
+        .card h3{
+            font-size:21px;
+            margin-bottom:10px;
+            color:#15803D;
+        }
+
+        .card p{
+            color:#64748B;
+            margin-bottom:20px;
+        }
+
+        .card a{
+            color:#15803D;
+            text-decoration:none;
+            font-weight:bold;
+        }
+
+        .card a:hover{
+            text-decoration:underline;
+        }
+
+        footer{
+            background-color:#14532D;
+            color:#DCFCE7;
+            text-align:center;
+            padding:20px;
+            margin-top:40px;
+        }
+
+        @media (max-width:600px){
+
+            .navbar{
+                flex-direction:column;
+                gap:15px;
+                padding:20px;
+            }
+
+            .navbar a{
+                margin:0 8px;
+                font-size:13px;
+            }
+
+            .welcome{
+                padding:40px 20px;
+            }
+
+            .welcome h1{
+                font-size:28px;
+            }
+
+            .dashboard{
+                padding:25px 20px;
+            }
+
+            .card-container{
+                grid-template-columns:1fr;
+            }
+
+        }
+    </style>
+</head>
+
+<body>
+
+<nav class="navbar">
+
+    <div class="logo">🎓 CSAS</div>
+
+    <div>
+
+        <a href="index.html">Home</a>
+        <a href="dashboard.html">Dashboard</a>
+
+        <span class="user-container">
+
+            <a id="loginLink" href="login.html">
+                Login
+            </a>
+
+            <div
+                id="dropdownMenu"
+                class="dropdown">
+
+                <a
+                    href="#"
+                    onclick="logout(); return false;">
+                    Sign Out
+                </a>
+
+            </div>
+
+        </span>
+
+    </div>
+
+</nav>
+
+<section class="welcome">
+
+    <h1>Welcome to CSAS</h1>
+
+    <p>
+        Your Student Appointment Management System.
+        Manage appointments and student information
+        all in one place.
+    </p>
+
+    <button onclick="window.location.href='appointments.html'">
+        Get Started
+    </button>
+
+</section>
+
+<section class="dashboard">
+
+    <h2>Dashboard</h2>
+
+    <div class="card-container">
+
+        <div class="card">
+
+            <div class="icon">📅</div>
+
+            <h3>Appointments</h3>
+
+            <p>
+                Schedule, view, and manage student appointments.
+            </p>
+
+            <a href="appointments.html">
+                Manage Appointments →
+            </a>
+
+        </div>
+
+        <div class="card">
+
+            <div class="icon">👥</div>
+
+            <h3>Students</h3>
+
+            <p>
+                View and manage student information
+                and records.
+            </p>
+
+            <a href="#"
+               onclick="manageStudents(); return false;">
+                Manage Students →
+            </a>
+
+        </div>
+
+    </div>
+
+</section>
+
+<footer>
+    <p>© 2026 CSAS - Student Appointment Management System</p>
+</footer>
+
+<script>
+
+function manageStudents(){
+
+    const currentUser =
+        localStorage.getItem("csasUser");
+
+    if(currentUser){
+
+        window.location.href =
+            "students.html";
+
+    }else{
+
+        window.location.href =
+            "login.html";
+    }
+}
+
+function toggleDropdown(){
+
+    const menu =
+        document.getElementById(
+            "dropdownMenu"
+        );
+
+    menu.style.display =
+        menu.style.display === "block"
+        ? "none"
+        : "block";
+}
+
+function logout(){
+
+    localStorage.removeItem(
+        "csasUser"
+    );
+
+    document.getElementById(
+        "dropdownMenu"
+    ).style.display = "none";
+
+    window.location.href =
+        "index.html";
+}
+
+window.onload = function(){
+
+    const user =
+        localStorage.getItem(
+            "csasUser"
+        );
+
+    const loginLink =
+        document.getElementById(
+            "loginLink"
+        );
+
+    if(user){
+
+        loginLink.innerHTML =
+            "👤 " + user + " ▼";
+
+        loginLink.href = "#";
+
+        loginLink.onclick = function(e){
+
+            e.preventDefault();
+
+            toggleDropdown();
+        };
+
+    }
+
+}
+
+document.addEventListener(
+    "click",
+    function(event){
+
+        const menu =
+            document.getElementById(
+                "dropdownMenu"
+            );
+
+        const loginLink =
+            document.getElementById(
+                "loginLink"
+            );
+
+        if(
+            menu &&
+            loginLink &&
+            !menu.contains(event.target) &&
+            event.target !== loginLink
+        ){
+
+            menu.style.display =
+                "none";
+        }
+    }
+);
+
+</script>
+
+</body>
+</html>

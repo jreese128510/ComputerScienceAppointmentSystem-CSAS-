@@ -1,0 +1,406 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CSAS Dashboard</title>
+
+    <style>
+        *{
+            margin:0;
+            padding:0;
+            box-sizing:border-box;
+            font-family:Arial,sans-serif;
+        }
+
+        body{
+            background:#F0FDF4;
+            color:#14532D;
+        }
+
+        .navbar{
+            background:#14532D;
+            color:white;
+            padding:20px 40px;
+            display:flex;
+            justify-content:space-between;
+            align-items:center;
+        }
+
+        .logo{
+            font-size:24px;
+            font-weight:bold;
+        }
+
+        .navbar a{
+            color:#DCFCE7;
+            text-decoration:none;
+            margin-left:20px;
+        }
+
+        .navbar a:hover{
+            color:#22C55E;
+        }
+
+        .dashboard-container{
+            max-width:1200px;
+            margin:40px auto;
+            padding:20px;
+        }
+
+        .title{
+            text-align:center;
+            margin-bottom:25px;
+        }
+
+        .calendar-header{
+            display:flex;
+            justify-content:space-between;
+            align-items:center;
+            margin-bottom:20px;
+        }
+
+        .calendar-header button{
+            padding:10px 20px;
+            border:none;
+            background:#15803D;
+            color:white;
+            border-radius:5px;
+            cursor:pointer;
+        }
+
+        .calendar-header button:hover{
+            background:#14532D;
+        }
+
+        .month-title{
+            font-size:28px;
+            font-weight:bold;
+        }
+
+        .calendar{
+            display:grid;
+            grid-template-columns:repeat(7,1fr);
+            gap:10px;
+        }
+
+        .weekday{
+            background:#14532D;
+            color:white;
+            text-align:center;
+            padding:15px;
+            font-weight:bold;
+            border-radius:5px;
+        }
+
+        .day{
+            background:white;
+            min-height:100px;
+            border-radius:8px;
+            padding:8px;
+            box-shadow:0 2px 5px rgba(0,0,0,.1);
+            cursor:pointer;
+        }
+
+        .day:hover{
+            border:2px solid #22C55E;
+        }
+
+        .day-number{
+            font-weight:bold;
+        }
+
+        .event{
+            background:#DCFCE7;
+            color:#14532D;
+            padding:4px;
+            border-radius:4px;
+            margin-top:5px;
+            font-size:12px;
+        }
+
+        .event-panel{
+            background:white;
+            margin-top:30px;
+            padding:20px;
+            border-radius:10px;
+            box-shadow:0 2px 8px rgba(0,0,0,.1);
+        }
+
+        .event-panel input{
+            width:100%;
+            padding:10px;
+            margin:10px 0;
+        }
+
+        .event-panel button{
+            padding:10px 20px;
+            border:none;
+            background:#15803D;
+            color:white;
+            border-radius:5px;
+            cursor:pointer;
+        }
+
+        .event-list{
+            margin-top:20px;
+        }
+
+        .saved-event{
+            background:#F8FFF8;
+            border-left:5px solid #15803D;
+            padding:10px;
+            margin:10px 0;
+        }
+
+        .saved-event button{
+            margin-left:10px;
+            background:red;
+        }
+
+        footer{
+            background:#14532D;
+            color:white;
+            text-align:center;
+            padding:20px;
+            margin-top:40px;
+        }
+
+        @media(max-width:768px){
+            .calendar{
+                grid-template-columns:repeat(2,1fr);
+            }
+        }
+    </style>
+</head>
+<body>
+
+<nav class="navbar">
+    <div class="logo">🎓 CSAS</div>
+
+    <div>
+        <a href="index.html">Home</a>
+        <a href="appointments.html">Appointments</a>
+        <a href="login.html">Login</a>
+    </div>
+</nav>
+
+<div class="dashboard-container">
+
+    <div class="title">
+        <h1>Dashboard Calendar</h1>
+        <p>Manage your appointments and events.</p>
+    </div>
+
+    <div class="calendar-header">
+        <button onclick="previousMonth()">◀ Previous</button>
+        <div class="month-title" id="monthYear"></div>
+        <button onclick="nextMonth()">Next ▶</button>
+    </div>
+
+    <div class="calendar" id="calendar"></div>
+
+    <div class="event-panel">
+        <h2>Add/Edit Event</h2>
+
+        <p id="selectedDate">
+            Select a date
+        </p>
+
+        <input
+            type="text"
+            id="eventInput"
+            placeholder="Enter appointment details">
+
+        <button onclick="saveEvent()">
+            Save Event
+        </button>
+
+        <div class="event-list" id="eventList"></div>
+
+    </div>
+
+</div>
+
+<footer>
+    <p>© 2026 CSAS - Student Appointment Management System</p>
+</footer>
+
+<script>
+
+let currentDate = new Date();
+let selectedDate = null;
+
+const events =
+JSON.parse(localStorage.getItem("csasEvents")) || {};
+
+function renderCalendar(){
+
+    const calendar =
+    document.getElementById("calendar");
+
+    calendar.innerHTML = "";
+
+    const year = currentDate.getFullYear();
+    const month = currentDate.getMonth();
+
+    const monthNames = [
+        "January","February","March","April",
+        "May","June","July","August",
+        "September","October","November","December"
+    ];
+
+    document.getElementById("monthYear").textContent =
+        `${monthNames[month]} ${year}`;
+
+    const weekdays = [
+        "Sun","Mon","Tue","Wed",
+        "Thu","Fri","Sat"
+    ];
+
+    weekdays.forEach(day=>{
+        const div=document.createElement("div");
+        div.className="weekday";
+        div.textContent=day;
+        calendar.appendChild(div);
+    });
+
+    const firstDay =
+    new Date(year,month,1).getDay();
+
+    const daysInMonth =
+    new Date(year,month+1,0).getDate();
+
+    for(let i=0;i<firstDay;i++){
+        const blank=document.createElement("div");
+        calendar.appendChild(blank);
+    }
+
+    for(let day=1; day<=daysInMonth; day++){
+
+        const cell =
+        document.createElement("div");
+
+        cell.className="day";
+
+        const dateKey =
+        `${year}-${month+1}-${day}`;
+
+        let eventText = "";
+
+        if(events[dateKey]){
+            eventText =
+            `<div class="event">${events[dateKey]}</div>`;
+        }
+
+        cell.innerHTML = `
+            <div class="day-number">${day}</div>
+            ${eventText}
+        `;
+
+        cell.onclick = ()=>{
+
+            selectedDate = dateKey;
+
+            document.getElementById(
+                "selectedDate"
+            ).textContent =
+            "Selected Date: " + dateKey;
+
+            document.getElementById(
+                "eventInput"
+            ).value =
+            events[dateKey] || "";
+
+            loadEventList();
+        };
+
+        calendar.appendChild(cell);
+    }
+}
+
+function saveEvent(){
+
+    if(!selectedDate){
+        alert("Select a date first.");
+        return;
+    }
+
+    const text =
+    document.getElementById("eventInput").value;
+
+    events[selectedDate]=text;
+
+    localStorage.setItem(
+        "csasEvents",
+        JSON.stringify(events)
+    );
+
+    renderCalendar();
+    loadEventList();
+}
+
+function loadEventList(){
+
+    const list =
+    document.getElementById("eventList");
+
+    list.innerHTML="";
+
+    if(!selectedDate || !events[selectedDate])
+        return;
+
+    const div =
+    document.createElement("div");
+
+    div.className="saved-event";
+
+    div.innerHTML=`
+      <strong>${selectedDate}</strong><br>
+      ${events[selectedDate]}
+      <br><br>
+      <button onclick="deleteEvent()">
+         Delete
+      </button>
+    `;
+
+    list.appendChild(div);
+}
+
+function deleteEvent(){
+
+    delete events[selectedDate];
+
+    localStorage.setItem(
+        "csasEvents",
+        JSON.stringify(events)
+    );
+
+    document.getElementById(
+        "eventInput"
+    ).value="";
+
+    renderCalendar();
+    loadEventList();
+}
+
+function previousMonth(){
+    currentDate.setMonth(
+        currentDate.getMonth()-1
+    );
+    renderCalendar();
+}
+
+function nextMonth(){
+    currentDate.setMonth(
+        currentDate.getMonth()+1
+    );
+    renderCalendar();
+}
+
+renderCalendar();
+
+</script>
+
+</body>
+</html>
